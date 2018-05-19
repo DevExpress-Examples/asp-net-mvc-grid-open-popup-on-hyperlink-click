@@ -1,0 +1,24 @@
+﻿@model System.Data.DataTable
+
+@Html.DevExpress().GridView(settings => {
+    settings.Name = "masterGrid";
+    settings.CallbackRouteValues = new { Controller = "Home", Action = "MasterAction" };
+    settings.KeyFieldName = "CustomerID";
+    settings.Columns.Add(col => {
+        col.FieldName = "CustomerID";
+        col.SetDataItemTemplateContent(container => {
+            Html.DevExpress().HyperLink(hlSettings => {
+                hlSettings.Name = string.Format("hl_{0}", (container as GridViewDataItemTemplateContainer).VisibleIndex);
+                hlSettings.NavigateUrl = "javascript:void(0)";
+                hlSettings.Properties.ClientSideEvents.Click = string.Format("function(s, e) {{ OnHyperLinkClick('{0}'); }}", (container as GridViewDataItemTemplateContainer).KeyValue.ToString());
+                hlSettings.Properties.Text = "Show Orders";
+            }).Render();
+        });
+    });
+    settings.Columns.Add("CompanyName");
+    settings.Columns.Add("ContactName");
+    settings.Columns.Add("ContactTitle");
+    settings.Columns.Add("Address");
+    settings.Columns.Add("Country");
+    settings.Columns.Add("City");
+}).Bind(Model).GetHtml()

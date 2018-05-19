@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("MasterViewPartial", DisplayDetailInPopupWindow.Models.CustomerRepository.GetCustomers())
+@Html.DevExpress().PopupControl(settings => {
+    settings.Name = "popup";
+    settings.Width = System.Web.UI.WebControls.Unit.Pixel(800);
+    settings.Height = System.Web.UI.WebControls.Unit.Pixel(400);
+    settings.SetContent(() => {
+        Html.RenderPartial("DetailViewPartial", null);
+    });
+}).GetHtml()

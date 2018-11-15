@@ -1,3 +1,13 @@
+<!-- default file list -->
+*Files to look at*:
+
+* [HomeController.cs](./CS/DisplayDetailInPopupWindow/Controllers/HomeController.cs)
+* [Data.cs](./CS/DisplayDetailInPopupWindow/Models/Data.cs)
+* [JSCustom.js](./CS/DisplayDetailInPopupWindow/Scripts/JSCustom.js)
+* [Index.cshtml](./CS/DisplayDetailInPopupWindow/Views/Home/Index.cshtml)
+* [DetailViewPartial.cshtml](./CS/DisplayDetailInPopupWindow/Views/Shared/DetailViewPartial.cshtml)
+* [MasterViewPartial.cshtml](./CS/DisplayDetailInPopupWindow/Views/Shared/MasterViewPartial.cshtml)
+<!-- default file list end -->
 # GridView - How to open popup on a hyperlink click
 
 

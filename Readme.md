@@ -9,6 +9,9 @@
 * [MasterViewPartial.cshtml](./CS/DisplayDetailInPopupWindow/Views/Shared/MasterViewPartial.cshtml)
 <!-- default file list end -->
 # GridView - How to open popup on a hyperlink click
+<!-- run online -->
+**[[Run Online]](https://codecentral.devexpress.com/e20052)**
+<!-- run online end -->
 
 
 <p>This example contains a Customers grid with a hyperlink column. When a hyperlink is clicked, a popup window is opened to display detail data - orders - of a given customer. Orders is the GridView extension in the content of the PopupControl.</p><p><strong>See also:</strong><br />

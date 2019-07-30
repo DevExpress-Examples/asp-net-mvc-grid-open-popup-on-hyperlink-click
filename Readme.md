@@ -10,7 +10,7 @@
 <!-- default file list end -->
 # GridView - How to open popup on a hyperlink click
 <!-- run online -->
-**[[Run Online]](https://codecentral.devexpress.com/e20052)**
+**[[Run Online]](https://codecentral.devexpress.com/e20052/)**
 <!-- run online end -->
 
 

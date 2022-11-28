@@ -8,55 +8,55 @@ This example demonstrates how to open a popup dialog when a user clicks a hyperl
 
 ![GridView for MVC - PopupHyperlink](images/PopupHyperlink.png)
 
-## Setup Master and Detail Grid Views
+Define master and detail GridView settings in separate PartialView files: [MasterViewPartial.cshtml](./CS/DisplayDetailInPopupWindow/Views/Shared/MasterViewPartial.cshtml) and [DetailViewPartial.cshtml](./CS/DisplayDetailInPopupWindow/Views/Shared/DetailViewPartial.cshtml).
 
-Define master and detail GridView settings in separate PartialView files and specify their [CallbackRouteValues](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.AutoCompleteBoxBaseSettings.CallbackRouteValues) properties.
+In the master grid, create a templated column and add a hyperlink to the template. In the hyperlink's `Click` event handler, send a callback to the detail grid.
 
 ```xml
 // MasterViewPartial.cshtml
 @Html.DevExpress().GridView(settings => {
-    settings.Name = "masterGrid";
-    settings.CallbackRouteValues = new { Controller = "Home", Action = "MasterAction" };
+    // ...
     settings.KeyFieldName = "CustomerID";
     settings.Columns.Add(col => {
         col.FieldName = "CustomerID";
         col.SetDataItemTemplateContent(container => {
             Html.DevExpress().HyperLink(hlSettings => {
-                hlSettings.Name = string.Format("hl_{0}", (container as GridViewDataItemTemplateContainer).VisibleIndex);
-                hlSettings.NavigateUrl = "javascript:void(0)";
+                // ...
                 hlSettings.Properties.ClientSideEvents.Click = string.Format("function(s, e) {{ OnHyperLinkClick('{0}'); }}", (container as GridViewDataItemTemplateContainer).KeyValue.ToString());
                 hlSettings.Properties.Text = "Show Orders";
             }).Render();
         });
     });
-    ...
-}).Bind(Model).GetHtml()
-
-// DetailViewPartial.cshtml
-@Html.DevExpress().GridView(settings => {
-    settings.Name = "detailGrid";
-    settings.CallbackRouteValues = new { Controller = "Home", Action = "DetailPartialAction" };
-    settings.KeyFieldName = "OrderID";
-    ...
-    settings.ClientSideEvents.BeginCallback = "OnDetailGridBeginCallback";
-    settings.ClientSideEvents.EndCallback = "OnDetailGridEndCallback";
+    // ...
 }).Bind(Model).GetHtml()
 ```
 
-## Show the Popup on the Detail Grid View Callback
-
-In the hyperlink's `Click` event handler, send a callback to the detail grid. Pass the row's key value to the server and show the popup window on the detail grid's callback.
-
 ```js
-// JSCustom.js
 var currentCustomerID;
 function OnHyperLinkClick(customerID) {
     currentCustomerID = customerID;
     detailGrid.PerformCallback();
 }
+```
+
+Handle the client-side [BeginCallback](https://docs.devexpress.com/AspNetMvc/js-MVCxClientGridView.BeginCallback) event of the detail grid. In the handler, declare the `_customerID` property and set it to the current customer ID value. The grid sends this value to the server to filter the detail grid data.
+
+```js
 function OnDetailGridBeginCallback(s, e) {
     e.customArgs["_customerID"] = currentCustomerID;
 }
+```
+
+```xml
+// HomeController.cs
+public PartialViewResult DetailPartialAction(string _customerID) {
+    return PartialView("DetailViewPartial", OrderRepository.GetOrders(_customerID));
+}
+```
+
+Handle the client-side [EndCallback](https://docs.devexpress.com/AspNet/js-ASPxClientGridView.EndCallback) event of the detail grid to show the popup control that contains the detail grid with filtered data.
+
+```js
 function OnDetailGridEndCallback(s, e) {
     if (!popup.IsVisible()) 
         popup.Show();
@@ -64,32 +64,14 @@ function OnDetailGridEndCallback(s, e) {
 ```
 
 ```xml
-// DetailViewPartial.cshtml
-@Html.DevExpress().GridView(settings => {
-    ...
-    settings.ClientSideEvents.BeginCallback = "OnDetailGridBeginCallback";
-    settings.ClientSideEvents.EndCallback = "OnDetailGridEndCallback";
-```
-
-## Specify the Popup's Content
-
-Define the popup window settings and call the [SetContent](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.MVCxPopupWindow.SetContent.overloads) method to render the popup's content.
-
-```xml
 // Index.cshtml
 @Html.DevExpress().PopupControl(settings => {
-    settings.Name = "popup";
-    settings.Width = System.Web.UI.WebControls.Unit.Pixel(800);
-    settings.Height = System.Web.UI.WebControls.Unit.Pixel(400);
+    // ...
     settings.SetContent(() => {
         Html.RenderPartial("DetailViewPartial", null);
     });
 }).GetHtml()
 
-// HomeController.cs
-public PartialViewResult DetailPartialAction(string _customerID) {
-    return PartialView("DetailViewPartial", OrderRepository.GetOrders(_customerID));
-}
 ```
 
 ## Files to Look At
@@ -103,6 +85,8 @@ public PartialViewResult DetailPartialAction(string _customerID) {
 ## Documentation
 
 - [CallbackRouteValues](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.AutoCompleteBoxBaseSettings.CallbackRouteValues)
+- [BeginCallback](https://docs.devexpress.com/AspNetMvc/js-MVCxClientGridView.BeginCallback)
+- [EndCallback](https://docs.devexpress.com/AspNet/js-ASPxClientGridView.EndCallback)
 - [SetContent](https://docs.devexpress.com/AspNetMvc/DevExpress.Web.Mvc.MVCxPopupWindow.SetContent.overloads)
 
 ## More Examples

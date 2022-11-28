@@ -4,7 +4,7 @@
 **[[Run Online]](https://codecentral.devexpress.com/e20052/)**
 <!-- run online end -->
 
-This example demonstrates how to open a popup dialog when a user clicks a hyperlink in the grid's column.
+This example demonstrates how to open a pop-up dialog when a user clicks a hyperlink in the grid's column.
 
 ![GridView for MVC - PopupHyperlink](images/PopupHyperlink.png)
 
@@ -54,7 +54,7 @@ public PartialViewResult DetailPartialAction(string _customerID) {
 }
 ```
 
-Handle the client-side [EndCallback](https://docs.devexpress.com/AspNet/js-ASPxClientGridView.EndCallback) event of the detail grid to show the popup control that contains the detail grid with filtered data.
+Handle the client-side [EndCallback](https://docs.devexpress.com/AspNet/js-ASPxClientGridView.EndCallback) event of the detail grid to show the Popup control that contains the detail grid with filtered data.
 
 ```js
 function OnDetailGridEndCallback(s, e) {

@@ -5,9 +5,6 @@
 <!-- default badges end -->
 # GridView for ASP.NET MVC - How to Open a Popup Window on a Hyperlink Click
 
-<!-- run online -->
-**[[Run Online]](https://codecentral.devexpress.com/134060041/)**
-<!-- run online end -->
 
 This example demonstrates how to open a pop-up dialog when a user clicks a hyperlink in the grid's column.
 

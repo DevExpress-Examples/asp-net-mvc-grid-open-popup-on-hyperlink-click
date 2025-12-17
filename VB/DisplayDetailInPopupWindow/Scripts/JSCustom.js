@@ -7,7 +7,6 @@ function OnDetailGridBeginCallback(s, e) {
     e.customArgs["_customerID"] = currentCustomerID;
 }
 function OnDetailGridEndCallback(s, e) {
-    if (!popup.IsVisible())
+    if (!popup.IsVisible()) 
         popup.Show();
 }
-
